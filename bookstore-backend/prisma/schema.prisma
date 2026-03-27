@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  
+}
+
+model User {
+  id String @id @default(uuid())
+
+  clerkUserId String @unique
+
+  name String
+
+  email String @unique
+
+  role Role @default(USER)
+
+  cart Cart?
+
+  isDeleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([clerkUserId])
+}
+
+model Book {
+  id String @id @default(uuid())
+
+  title String
+
+  author String
+
+  printedPrice Decimal @db.Decimal(10, 2)
+
+  discountedPrice Decimal @db.Decimal(10, 2)
+
+  publishedYear Int
+
+  isUsed Boolean
+
+  stock Int @default(1)
+
+  categoryId String
+
+  category Category @relation(fields: [categoryId], references: [id])
+
+  cartItems CartItem[]
+
+  isDeleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@index([title])
+  @@index([author])
+  @@index([categoryId])
+  @@index([isUsed])
+  @@index([printedPrice])
+  @@index([discountedPrice])
+}
+
+model Category {
+  id String @id @default(uuid())
+
+  name String @unique
+
+  isDeleted Boolean @default(false)
+
+  books Book[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+model Cart {
+  id String @id @default(uuid())
+
+  userId String @unique
+
+  user User @relation(fields: [userId], references: [id])
+
+  items CartItem[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+model CartItem {
+  id String @id @default(uuid())
+
+  cartId String
+
+  bookId String
+
+  quantity Int @default(1)
+
+  cart Cart @relation(fields: [cartId], references: [id])
+
+  book Book @relation(fields: [bookId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@unique([cartId, bookId])
+  @@index([cartId])
+  @@index([bookId])
+}
+
+enum Role {
+  ADMIN
+
+  USER
+}
