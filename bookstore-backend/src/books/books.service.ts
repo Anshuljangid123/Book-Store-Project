@@ -35,7 +35,6 @@ export class BooksService {
   async update(id: string, updateBookDto: UpdateBookDto) {
     // Verify existence first
     await this.findOne(id);
-
     return this.prisma.book.update({
       where: { id },
       data: updateBookDto,
