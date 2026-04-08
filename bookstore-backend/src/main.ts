@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -5,14 +8,20 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enables global server-side validation using DTOs
+  // Enable CORS
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Strips away any properties that don't have decorators
-      transform: true, // Automatically transforms payloads to be objects typed according to their DTO classes
+      whitelist: true,
+      transform: true,
     }),
   );
 
-  await app.listen(3000);
+  await app.listen(3005);
+  console.log('Backend running on http://localhost:3005');
 }
 bootstrap();

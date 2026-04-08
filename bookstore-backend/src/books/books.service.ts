@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { SearchBookDto } from './dto/search-book.dto';
 
 @Injectable()
 export class BooksService {
@@ -13,10 +15,34 @@ export class BooksService {
     });
   }
 
-  async findAll() {
+  async findAll(query?: SearchBookDto) {
+    const where: Prisma.BookWhereInput = { isDeleted: false };
+
+    if (query?.title) {
+      where.title = { contains: query.title, mode: 'insensitive' };
+    }
+
+    if (query?.categoryId) {
+      where.categoryId = query.categoryId;
+    }
+
+    if (query?.isUsed !== undefined) {
+      where.isUsed = query.isUsed === 'true';
+    }
+
+    if (query?.minPrice !== undefined || query?.maxPrice !== undefined) {
+      where.discountedPrice = {};
+      if (query?.minPrice !== undefined) {
+        where.discountedPrice.gte = parseFloat(query.minPrice);
+      }
+      if (query?.maxPrice !== undefined) {
+        where.discountedPrice.lte = parseFloat(query.maxPrice);
+      }
+    }
+
     return await this.prisma.book.findMany({
-      where: { isDeleted: false },
-      include: { category: true }, // Join the category data
+      where,
+      include: { category: true },
     });
   }
 
