@@ -36,4 +36,9 @@ export class CartController {
   ) {
     return this.cartService.removeFromCart(req.user.id, bookId);
   }
+
+  @Post('checkout')
+  checkout(@Request() req) {
+    return this.cartService.checkout(req.user.id);
+  }
 }

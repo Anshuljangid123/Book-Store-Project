@@ -1,45 +1,67 @@
 'use client';
 
-import { Box, Button, Container, Heading, Text, SimpleGrid, Flex, Image, Stack, VStack, HStack, Badge } from '@chakra-ui/react';
+import { Box, Button, Container, Heading, Text, SimpleGrid, Flex, Image, Stack, HStack } from '@chakra-ui/react';
 import Link from 'next/link';
 
 export default function Home() {
   return (
-    <Box bg="gray.50" minH="100vh">
+    <Box bg="#0a0a0a" minH="100vh" color="white">
       {/* Hero Section */}
-      <Box position="relative" bg="gray.900" color="white" py={{ base: 20, md: 32 }} overflow="hidden">
-        {/* Abstract Background Decoration */}
-        <Box 
-          position="absolute" top="-20%" left="-10%" w="50%" h="150%" 
-          bgGradient="radial(blue.600, transparent)" opacity={0.3} filter="blur(80px)" 
-        />
-        <Box 
-          position="absolute" bottom="-20%" right="-10%" w="50%" h="150%" 
-          bgGradient="radial(orange.500, transparent)" opacity={0.2} filter="blur(80px)" 
-        />
-
-        <Container maxW="container.xl" position="relative" zIndex={1}>
-          <Flex direction={{ base: 'column', lg: 'row' }} align="center" justify="space-between" gap={16}>
+      <Box position="relative" py={{ base: 20, md: 32 }} overflow="hidden" borderBottom="1px solid" borderColor="whiteAlpha.100">
+        <Container maxW="container.xl" position="relative" zIndex={1} px={{ base: 6, md: 12 }}>
+          <Flex direction={{ base: 'column', lg: 'row' }} align="center" justify="space-between" gap={20}>
             
-            <Stack flex={1} spacing={8} maxW="2xl">
-              <Badge colorScheme="blue" alignSelf="flex-start" px={4} py={1} borderRadius="full" fontSize="sm" fontWeight="bold" textTransform="uppercase" letterSpacing="wider">
-                Welcome to the Bookstore
-              </Badge>
-              <Heading as="h1" size={{ base: "2xl", md: "4xl" }} fontWeight="black" lineHeight="1.1" letterSpacing="tight">
-                Discover Your Next <Text as="span" color="orange.400">Great Adventure</Text>
-              </Heading>
-              <Text fontSize={{ base: "lg", md: "2xl" }} color="gray.300" maxW="lg" lineHeight="1.6">
-                Explore thousands of new and gently used books at unbeatable prices. From fiction to rare collectibles, we have it all.
+            <Stack flex={1} spacing={10} maxW="2xl">
+              <Text color="yellow.500" fontSize="sm" fontWeight="bold" textTransform="uppercase" letterSpacing="widest">
+                Curated Collection
               </Text>
-              <HStack spacing={4} pt={4}>
+              
+              <Heading as="h1" size={{ base: "3xl", md: "5xl" }} fontWeight="500" lineHeight="1.2" letterSpacing="tight">
+                The Standard In <br />
+                <Text as="span" fontWeight="bold" color="white">Classic Literature.</Text>
+              </Heading>
+              
+              <Text fontSize={{ base: "lg", md: "xl" }} color="gray.200" maxW="lg" lineHeight="1.8" fontWeight="400">
+                Explore an exquisitely curated catalog of antique folios, new releases, and timeless masterpieces.
+              </Text>
+              
+              <HStack spacing={6} pt={6}>
                 <Link href="/books">
-                  <Button size="lg" height="4rem" px={10} colorScheme="orange" fontSize="lg" borderRadius="full" fontWeight="bold" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }}>
-                    Start Browsing
+                  <Button 
+                    size="lg" 
+                    height="4rem" 
+                    px={12} 
+                    bg="white" 
+                    color="black" 
+                    borderRadius="none" 
+                    fontWeight="bold" 
+                    letterSpacing="widest"
+                    textTransform="uppercase"
+                    fontSize="sm"
+                    transition="all 0.3s"
+                    _hover={{ bg: 'yellow.500', color: 'black' }}
+                  >
+                    View Catalog
                   </Button>
                 </Link>
                 <Link href="/cart">
-                  <Button size="lg" height="4rem" px={10} variant="outline" color="white" _hover={{ bg: 'whiteAlpha.200' }} borderColor="whiteAlpha.400" fontSize="lg" borderRadius="full" fontWeight="bold">
-                    View Cart
+                  <Button 
+                    size="lg" 
+                    height="4rem" 
+                    px={12} 
+                    bg="transparent" 
+                    color="white" 
+                    border="1px solid"
+                    borderColor="whiteAlpha.400"
+                    borderRadius="none" 
+                    fontWeight="medium" 
+                    letterSpacing="widest"
+                    textTransform="uppercase"
+                    fontSize="sm"
+                    transition="all 0.3s"
+                    _hover={{ borderColor: 'white', bg: 'whiteAlpha.100' }}
+                  >
+                    Your Cart
                   </Button>
                 </Link>
               </HStack>
@@ -47,17 +69,23 @@ export default function Home() {
             
             {/* Hero Image / Display */}
             <Box flex={1} display={{ base: 'none', lg: 'block' }} position="relative" w="100%">
-              <Box 
-                 position="relative" p={4} bg="whiteAlpha.100" borderRadius="3xl" 
-                 border="1px solid" borderColor="whiteAlpha.300" boxShadow="2xl" backdropFilter="blur(16px)"
-                 transform="rotate(3deg)" transition="transform 0.4s" _hover={{ transform: 'rotate(0deg)' }}
-              >
+              <Box position="relative">
+                <Box 
+                  position="absolute"
+                  top="-20px"
+                  left="-20px"
+                  w="100%"
+                  h="100%"
+                  border="1px solid"
+                  borderColor="yellow.500"
+                />
                 <Image 
                   src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop" 
-                  alt="Beautiful Books" 
-                  borderRadius="2xl" 
-                  w="100%" h="500px" objectFit="cover" 
-                  boxShadow="inner"
+                  alt="Classic Books" 
+                  w="100%" h="600px" objectFit="cover" 
+                  filter="grayscale(80%) contrast(120%)"
+                  transition="all 0.5s"
+                  _hover={{ filter: "grayscale(0%) contrast(100%)", transform: "translate(-5px, -5px)" }}
                 />
               </Box>
             </Box>
@@ -67,38 +95,31 @@ export default function Home() {
       </Box>
 
       {/* Features Section */}
-      <Box py={{ base: 20, md: 32 }} bg="white">
-        <Container maxW="container.xl">
-          <VStack spacing={4} textAlign="center" mb={16}>
-            <Heading size="2xl" color="gray.900" fontWeight="extrabold" letterSpacing="tight">
-              Why Shop With Us?
+      <Box py={{ base: 20, md: 32 }} bg="#050505">
+        <Container maxW="container.xl" px={{ base: 6, md: 12 }}>
+          <Box mb={20}>
+            <Heading size="3xl" color="white" fontWeight="500" letterSpacing="tight">
+              Uncompromising Quality.
             </Heading>
-            <Text color="gray.600" fontSize="xl" maxW="2xl">
-              We provide the absolute best reading experience. High quality service, affordable prices, and an endless catalog.
-            </Text>
-          </VStack>
+          </Box>
 
-          <SimpleGrid columns={{ base: 1, md: 3 }} gap={10}>
+          <SimpleGrid columns={{ base: 1, md: 3 }} gap={0} borderTop="1px solid" borderLeft="1px solid" borderColor="whiteAlpha.200">
              {[
-               { title: 'Vast Selection', desc: 'Over 1 million titles across all categories.', icon: '📚', color: 'blue' },
-               { title: 'Affordable Rates', desc: 'Used books at a fraction of the cost.', icon: '💰', color: 'green' },
-               { title: 'Fast Delivery', desc: 'Free shipping on orders over $25.', icon: '⚡', color: 'orange' },
+               { title: 'The Store', desc: 'Over 1 million verified titles spanning across five centuries of literature.', num: '01' },
+               { title: 'Appraisal', desc: 'Used inventory meticulously checked for spine integrity and page condition.', num: '02' },
+               { title: 'Fulfillment', desc: 'Expedited global shipping, packaged securely to protect your investment.', num: '03' },
              ].map((feature, i) => (
                <Box 
-                 key={i} p={10} borderRadius="2xl" bg="gray.50" 
-                 border="1px solid" borderColor="gray.100"
-                 transition="all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)" 
-                 _hover={{ transform: 'translateY(-10px)', boxShadow: '2xl', borderColor: `${feature.color}.200`, bg: "white" }}
+                 key={i} p={12} 
+                 borderRight="1px solid" borderBottom="1px solid" borderColor="whiteAlpha.200"
+                 bg="transparent"
+                 transition="background 0.3s"
+                 _hover={{ bg: 'whiteAlpha.50' }}
+                 group
                >
-                 <Flex 
-                   w={20} h={20} align="center" justify="center" 
-                   bg={`${feature.color}.100`} color={`${feature.color}.600`} 
-                   borderRadius="2xl" mb={6} fontSize="4xl" boxShadow="sm"
-                 >
-                   {feature.icon}
-                 </Flex>
-                 <Heading size="lg" mb={4} color="gray.900">{feature.title}</Heading>
-                 <Text color="gray.600" fontSize="lg" lineHeight="tall">{feature.desc}</Text>
+                 <Text color="yellow.500" fontFamily="mono" fontSize="md" fontWeight="bold" mb={8}>{feature.num}</Text>
+                 <Heading size="lg" mb={4} color="white" fontWeight="500">{feature.title}</Heading>
+                 <Text color="gray.200" fontSize="md" lineHeight="tall" fontWeight="400">{feature.desc}</Text>
                </Box>
              ))}
           </SimpleGrid>

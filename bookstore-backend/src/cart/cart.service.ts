@@ -83,4 +83,30 @@ export class CartService {
       where: { id: item.id },
     });
   }
+
+  async checkout(userId: string) {
+    const cart = await this.getCart(userId);
+    if (!cart || cart.items.length === 0) {
+      throw new BadRequestException('Cart is empty');
+    }
+
+    await this.prisma.$transaction(async (prisma) => {
+      for (const item of cart.items) {
+        const book = await prisma.book.findUnique({ where: { id: item.bookId } });
+        if (!book || book.stock < item.quantity) {
+          throw new BadRequestException(`Not enough stock for book: ${item.book.title}`);
+        }
+        await prisma.book.update({
+          where: { id: item.bookId },
+          data: { stock: book.stock - item.quantity },
+        });
+      }
+      
+      await prisma.cartItem.deleteMany({
+        where: { cartId: cart.id },
+      });
+    });
+
+    return { message: 'Checkout successful' };
+  }
 }

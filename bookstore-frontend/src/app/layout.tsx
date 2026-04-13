@@ -27,8 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
-        <body style={{ color: '#1a202c', backgroundColor: '#f7fafc' }}>
+      <html lang="en" className={`${geistSans.variable} ${geistMono.variable} dark`} style={{ colorScheme: 'dark' }} suppressHydrationWarning>
+        <body style={{ backgroundColor: '#0a0a0a', color: '#ededed' }}>
           <Providers>
             <Navbar />
             {children}
